@@ -44,7 +44,9 @@ module.exports = class {
   preprocessString (str) {
     _.templateSettings.interpolate = /{{([\s\S]+?)}}/g
     const tmpl = _.template(str)
+    const tplString = tmpl({ event: this.githubEvent })
+    console.log(`String to search: ${tplString}`)
 
-    return tmpl({ event: this.githubEvent })
+    return tplString;
   }
 }
