@@ -26,10 +26,12 @@ module.exports = class {
     const extractString = this.preprocessString(template)
     const match = extractString.match(issueIdRegEx)
 
+    console.log(`Searching for keys in:\n${extractString}\n`)
+
     if (!match) {
       console.log(`String "${extractString}" does not contain issueKeys`)
 
-      return { warn: `String "${extractString}" does not contain issueKeys` }
+      return
     }
 
     for (const issueKey of match) {
@@ -44,9 +46,7 @@ module.exports = class {
   preprocessString (str) {
     _.templateSettings.interpolate = /{{([\s\S]+?)}}/g
     const tmpl = _.template(str)
-    const tplString = tmpl({ event: this.githubEvent })
-    console.log(`String to search: ${tplString}`)
 
-    return tplString;
+    return tmpl({ event: this.githubEvent })
   }
 }
