@@ -18,7 +18,7 @@ async function exec () {
       config,
     }).execute()
 
-    if (result) {
+    if (result.issue) {
       console.log(`Detected issueKey: ${result.issue}`)
       console.log(`Saving ${result.issue} to ${cliConfigPath}`)
       console.log(`Saving ${result.issue} to ${configPath}`)
@@ -34,6 +34,7 @@ async function exec () {
       return fs.appendFileSync(cliConfigPath, yamledResult)
     }
 
+    console.log(`Warning: ${result.warn}`)
     console.log('No issueKeys found.')
     core.setNeutral()
   } catch (error) {

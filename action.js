@@ -29,7 +29,7 @@ module.exports = class {
     if (!match) {
       console.log(`String "${extractString}" does not contain issueKeys`)
 
-      return
+      return { warn: `String "${extractString}" does not contain issueKeys` }
     }
 
     for (const issueKey of match) {
