@@ -6,6 +6,7 @@ const issueIdRegEx = /([a-zA-Z0-9]+-[0-9]+)/g
 const eventTemplates = {
   branch: '{{event.ref}}',
   commits: "{{event.commits.map(c=>c.message).join(' ')}}",
+  pull_request: "{{event.pull_request.head.ref}}",
 }
 
 module.exports = class {
@@ -23,8 +24,6 @@ module.exports = class {
 
   async execute() {
     console.log(this.githubEvent);
-    console.log(this.githubEvent.commits);
-    console.log(this.githubEvent.ref);
     const template = this.argv.string || eventTemplates[this.argv.from]
     const extractString = this.preprocessString(template)
     const match = extractString.match(issueIdRegEx)
@@ -34,7 +33,7 @@ module.exports = class {
     if (!match) {
       console.log(`String "${extractString}" does not contain issueKeys`)
 
-      return
+      return {};
     }
 
     for (const issueKey of match) {
