@@ -9,7 +9,7 @@ const eventTemplates = {
 }
 
 module.exports = class {
-  constructor ({ githubEvent, argv, config }) {
+  constructor({ githubEvent, argv, config }) {
     this.Jira = new Jira({
       baseUrl: config.baseUrl,
       token: config.token,
@@ -21,7 +21,10 @@ module.exports = class {
     this.githubEvent = githubEvent
   }
 
-  async execute () {
+  async execute() {
+    console.log(this.githubEvent);
+    console.log(this.githubEvent.commits);
+    console.log(this.githubEvent.ref);
     const template = this.argv.string || eventTemplates[this.argv.from]
     const extractString = this.preprocessString(template)
     const match = extractString.match(issueIdRegEx)
@@ -43,7 +46,7 @@ module.exports = class {
     }
   }
 
-  preprocessString (str) {
+  preprocessString(str) {
     _.templateSettings.interpolate = /{{([\s\S]+?)}}/g
     const tmpl = _.template(str)
 
